@@ -16,6 +16,7 @@ app.get('/villains', (request, response) => {
 })
 
 // display villains by slug
+// select all from villians where slug = slug
 app.get('/villains/:slug', (request, response) => {
   // deconstruct slug and any slug that comes from the request.params(from browser) // gets stored in slug; also set up a 404
   const { slug } = request.params
@@ -29,6 +30,7 @@ app.get('/villains/:slug', (request, response) => {
 })
 
 // create new villain
+// add new villain below to database
 app.post('/villains', (request, response) => {
   const { name, movie, slug } = request.body
   const newVillain = {
