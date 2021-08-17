@@ -3,6 +3,8 @@ const express = require('express')
 const villains = require('./villains')
 const app = express()
 
+app.use(express.json())
+
 app.get('/', (request, response) => {
   // eslint-disable-next-line no-console
   return response.send('Hello World')
@@ -26,6 +28,10 @@ app.get('/villains/:slug', (request, response) => {
   return response.send(villainBySlug)
 })
 
+// create new villain
+app.post('/villains', (request, response) => {
+  response.send('create new viilain')
+})
 
 app.listen(1337, () => {
   // eslint-disable-next-line no-console
