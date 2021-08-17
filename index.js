@@ -30,7 +30,19 @@ app.get('/villains/:slug', (request, response) => {
 
 // create new villain
 app.post('/villains', (request, response) => {
-  response.send('create new viilain')
+  const { name, movie, slug } = request.body
+  const newVillain = {
+    name: name,
+    movie: movie,
+    slug: slug
+  }
+
+  if (!name || !movie || !slug) {
+    return response.status(403).send('missing resource')
+  }
+  villains.push(newVillain)
+
+  return response.send(newVillain)
 })
 
 app.listen(1337, () => {
