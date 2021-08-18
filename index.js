@@ -51,3 +51,8 @@ app.listen(1337, () => {
   // eslint-disable-next-line no-console
   console.log('Listening on port 1337')
 })
+
+const teams = require('./villains')
+
+// eslint-disable-next-line no-console
+teams.forEach((({ name, movie, slug }) => console.log(`('${name}', '${movie}', '${slug}'`)))
