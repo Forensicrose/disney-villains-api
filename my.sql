@@ -1,11 +1,14 @@
-DROP DATABASE IF EXISTS villains;
+DROP DATABASE IF EXISTS disneyvillains;
+CREATE DATABASE disneyvillains;
 
-CREATE DATABASE villains;
+DROP USER IF EXISTS 'movieVillains'@'localhost';
+CREATE USER 'movieVillains'@'localhost' IDENTIFIED BY '$cary!';
 
-USE villains;
+-- Grant our user access to all tables to the database
+GRANT ALL PRIVILEGES ON disneyvillains.* to 'movieVillains'@'localhost';
+FLUSH PRIVILEGES;
 
-SHOW TABLES;
-
+USE disneyvillains;
 CREATE TABLE villains (
 id INT auto_increment,
 name VARCHAR(255),
@@ -14,8 +17,9 @@ slug VARCHAR(255),
 PRIMARY KEY(id)
 );
 
-INSERT INTO villains (name, movie, slug) 
-VALUES 
+USE disneyvillains;
+INSERT INTO villains (name, movie, slug)
+VALUES
 ('Captain Hook', 'Peter Pan', 'captain-hook'),
 ('Cruella de Vil', 'One Hundred and One Dalmatians', 'cruella-de-vil'),
 ('Gaston', 'Beauty and the Beast', 'gaston'),
@@ -36,6 +40,5 @@ VALUES
 ('Ursula', 'The Little Mermaid', 'ursula');
 
 SELECT * FROM villains;
-
 
 

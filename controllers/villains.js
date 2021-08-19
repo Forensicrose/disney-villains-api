@@ -1,9 +1,12 @@
-const models = ('../models')
+const models = require('../models')
+
+// eslint-disable-next-line no-console
+console.log(models)
 
 const getVillains = async (request, response) => {
   const villains = await models.scaryVillains.findAll()
 
-  return response(villains)
+  return response.send(villains)
 }
 
 const villainBySlug = async (request, response) => {
