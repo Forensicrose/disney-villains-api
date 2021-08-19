@@ -2,8 +2,9 @@ const Sequelize = require('sequelize')
 const villains = require('./villains')
 
 const connection = new Sequelize('disneyvillains', 'movieVillains', '$cary!', {
-  host: 'localhost', dialect: 'mysql', define: { timestamps: false }
+  host: 'localhost', dialect: 'mysql',
 })
+
 
 const scaryVillains = villains(connection, Sequelize)
 

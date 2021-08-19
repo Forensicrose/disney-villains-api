@@ -14,6 +14,10 @@ id INT auto_increment,
 name VARCHAR(255),
 movie VARCHAR(255),
 slug VARCHAR(255),
+updatedAt DATETIME DEFAULT NOW() ON UPDATE NOW(),
+createdAt DATETIME DEFAULT NOW(),
+deletedAt DATETIME,
+
 PRIMARY KEY(id)
 );
 

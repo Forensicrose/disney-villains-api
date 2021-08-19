@@ -23,7 +23,9 @@ const newVillain = async (request, response) => {
   if (!name || !movie || !slug) {
     return response.status(403).send('missing resource')
   }
-  const newVillain = await models.scaryVillains.create({ name, movie, slug })
+  const newVillain = await models.scaryVillains.create({
+    name, movie, slug, updatedAt: new Date(), createdAt: new Date()
+  })
 
   response.status(201).send(newVillain)
 }
