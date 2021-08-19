@@ -13,6 +13,9 @@ const villainBySlug = async (request, response) => {
   const { slug } = request.params
   const villainBySlug = await models.scaryVillains.findOne({ where: { slug } })
 
+  if (!villainBySlug) return response.sendStatus(404)
+
+
   return response.send(villainBySlug)
 }
 
