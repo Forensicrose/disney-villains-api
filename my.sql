@@ -5,7 +5,7 @@ DROP USER IF EXISTS 'movieVillains'@'localhost';
 CREATE USER 'movieVillains'@'localhost' IDENTIFIED BY '$cary!';
 
 -- Grant our user access to all tables to the database
-GRANT ALL PRIVILEGES ON disneyVillians.* to 'movieVillains'@'localhost';
+GRANT ALL PRIVILEGES ON disneyVillains.* to 'movieVillains'@'localhost';
 FLUSH PRIVILEGES;
 
 USE disneyVillains;
@@ -17,7 +17,7 @@ slug VARCHAR(255),
 PRIMARY KEY(id)
 );
 
-USE villains;
+USE disneyVillains;
 INSERT INTO villains (name, movie, slug)
 VALUES
 ('Captain Hook', 'Peter Pan', 'captain-hook'),
