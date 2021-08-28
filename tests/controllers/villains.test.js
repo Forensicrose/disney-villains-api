@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const models = require('../../models')
 const { describe, it } = require('mocha')
-const { villainList, singleVillain } = require('../mocks/villains')
+const { villainList, singleVillain, savedVillain } = require('../mocks/villains')
 const { getVillains, villainBySlug, newVillain } = require('../../controllers/villains')
 
 chai.use(sinonChai)
@@ -38,6 +39,19 @@ describe('getting all villains', () => {
     })
   })
 
+  describe('newVillain', () => {
+    it('infomation about a new villain is created and saved into the database. The new villain is sent back with a 201 status', async () => {
+      const request = { body: savedVillain }
+      const stubbedSend = sinon.stub()
+      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
+      const response = { status: stubbedStatus }
+      const stubbedCreate = sinon.stub(models.scaryVillains, 'create').returns(singleVillain)
 
-  describe('newVillain', () => {})
+      await newVillain(request, response)
+
+      expect(stubbedCreate).to.have.been.calledWith(savedVillain)
+      expect(stubbedStatus).to.have.been.calledWith(201)
+      expect(stubbedSend).to.have.been.calledWith(singleVillain)
+    })
+  })
 })

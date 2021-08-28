@@ -5,7 +5,7 @@ DROP USER IF EXISTS 'movieVillains'@'localhost';
 CREATE USER 'movieVillains'@'localhost' IDENTIFIED BY '$cary!';
 
 -- Grant our user access to all tables to the database
-GRANT ALL PRIVILEGES ON disneyVillians.* to 'movieVillains'@'localhost';
+GRANT ALL PRIVILEGES ON disneyVillains.* to 'movieVillains'@'localhost';
 FLUSH PRIVILEGES;
 
 USE disneyVillains;
@@ -14,6 +14,9 @@ id INT auto_increment,
 name VARCHAR(255),
 movie VARCHAR(255),
 slug VARCHAR(255),
+updatedAt DATETIME DEFAULT NOW() ON UPDATE NOW(),
+createdAt DATETIME DEFAULT NOW(),
+deletedAt DATETIME,
 PRIMARY KEY(id)
 );
 
@@ -40,5 +43,4 @@ VALUES
 ('Ursula', 'The Little Mermaid', 'ursula');
 
 SELECT * FROM disneyVillains.villains;
-
 

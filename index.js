@@ -1,7 +1,9 @@
 /* eslint-disable eqeqeq */
 const express = require('express')
+
 // const villains = require('./villains')
 const { getVillains, villainBySlug, newVillain } = require('./controllers/villains')
+
 const app = express()
 
 app.use(express.json())
