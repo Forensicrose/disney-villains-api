@@ -11,6 +11,7 @@ chai.use(sinonChai)
 const { expect } = chai
 
 describe('getting all villains', () => {
+  let sandbox
   let stubbedFindOne
   let stubbedSend
   let response
@@ -19,12 +20,14 @@ describe('getting all villains', () => {
   let stubbedStatus
 
   before(() => {
-    stubbedFindOne = sinon.stub(models.scaryVillains, 'findOne')
+    sandbox = sinon.createSandbox()
 
-    stubbedSend = sinon.stub()
-    stubbedSendStatus = sinon.stub()
-    stubbedStatusSend = sinon.stub()
-    stubbedStatus = sinon.stub()
+    stubbedFindOne = sandbox.stub(models.scaryVillains, 'findOne')
+
+    stubbedSend = sandbox.stub()
+    stubbedSendStatus = sandbox.stub()
+    stubbedStatusSend = sandbox.stub()
+    stubbedStatus = sandbox.stub()
 
     response = {
       send: stubbedSend,
@@ -34,11 +37,7 @@ describe('getting all villains', () => {
   })
 
   afterEach(() => {
-    stubbedFindOne.resetBehavior()
-    stubbedSend.resetBehavior()
-    stubbedSendStatus.resetBehavior()
-    stubbedStatusSend.resetBehavior()
-    stubbedStatus.resetBehavior()
+    sandbox.reset()
   })
 
   describe('getVillains', () => {
@@ -86,7 +85,7 @@ describe('getting all villains', () => {
 
       expect(stubbedCreate).to.have.been.calledWith(savedVillain)
       expect(stubbedStatus).to.have.been.calledWith(201)
-      expect(stubbedSend).to.have.been.calledWith(singleVillain)
+      expect(stubbedStatusSend).to.have.been.calledWith(singleVillain)
     })
   })
 })
