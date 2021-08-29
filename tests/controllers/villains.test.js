@@ -12,20 +12,38 @@ const { expect } = chai
 
 describe('getting all villains', () => {
   let stubbedFindOne
+  let stubbedSend
+  let response
+  let stubbedSendStatus
+  let stubbedStatusSend
+  let stubbedStatus
 
   before(() => {
     stubbedFindOne = sinon.stub(models.scaryVillains, 'findOne')
+
+    stubbedSend = sinon.stub()
+    stubbedSendStatus = sinon.stub()
+    stubbedStatusSend = sinon.stub()
+    stubbedStatus = sinon.stub()
+
+    response = {
+      send: stubbedSend,
+      sendStatus: stubbedSendStatus,
+      status: stubbedStatus
+    }
   })
 
   afterEach(() => {
     stubbedFindOne.resetBehavior()
+    stubbedSend.resetBehavior()
+    stubbedSendStatus.resetBehavior()
+    stubbedStatusSend.resetBehavior()
+    stubbedStatus.resetBehavior()
   })
 
   describe('getVillains', () => {
     it('retrieves and returns a list of villains from the database', async () => {
       const stubbedFindAll = sinon.stub(models.scaryVillains, 'findAll').returns(villainList)
-      const stubbedSend = sinon.stub()
-      const response = { send: stubbedSend }
 
       await getVillains({}, response)
 
@@ -39,9 +57,6 @@ describe('getting all villains', () => {
     it('retrieves and returns the villain associated with the provided slug from the database', async () => {
       stubbedFindOne.returns(singleVillain)
       const request = { params: { slug: 'gaston' } }
-      const stubbedSend = sinon.stub()
-      const response = { send: stubbedSend }
-
 
       await villainBySlug(request, response)
 
@@ -52,8 +67,6 @@ describe('getting all villains', () => {
     it('returns a 404 status when no villain is found', async () => {
       stubbedFindOne.returns(null)
       const request = { params: { slug: 'not found' } }
-      const stubbedSendStatus = sinon.stub()
-      const response = { sendStatus: stubbedSendStatus }
 
       await villainBySlug(request, response)
 
@@ -65,9 +78,8 @@ describe('getting all villains', () => {
   describe('newVillain', () => {
     it('infomation about a new villain is created and saved into the database. The new villain is sent back with a 201 status', async () => {
       const request = { body: savedVillain }
-      const stubbedSend = sinon.stub()
-      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
-      const response = { status: stubbedStatus }
+
+      stubbedStatus.returns({ send: stubbedStatusSend })
       const stubbedCreate = sinon.stub(models.scaryVillains, 'create').returns(singleVillain)
 
       await newVillain(request, response)
