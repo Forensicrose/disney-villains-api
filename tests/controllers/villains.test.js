@@ -3,7 +3,9 @@ const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const models = require('../../models')
-const { before, afterEach, describe, it } = require('mocha')
+const {
+  before, beforeEach, afterEach, describe, it
+} = require('mocha')
 const { villainList, singleVillain, savedVillain } = require('../mocks/villains')
 const { getVillains, villainBySlug, newVillain } = require('../../controllers/villains')
 
@@ -34,6 +36,10 @@ describe('getting all villains', () => {
       sendStatus: stubbedSendStatus,
       status: stubbedStatus
     }
+  })
+
+  beforeEach(() => {
+    stubbedStatus.returns({ send: stubbedStatusSend })
   })
 
   afterEach(() => {
@@ -71,6 +77,17 @@ describe('getting all villains', () => {
 
       expect(stubbedFindOne).to.have.been.calledWith({ where: { slug: 'not found' } })
       expect(stubbedSendStatus).to.have.been.calledWith(404)
+    })
+
+    it('returns a 500 with an error message when the database call throws an error', async () => {
+      stubbedFindOne.throws('error!!!')
+      const request = { params: { slug: 'ERROR!' } }
+
+      await villainBySlug(request, response)
+
+      expect(stubbedFindOne).to.have.been.calledWith({ where: { slug: 'ERROR!' } })
+      expect(stubbedStatus).to.have.been.calledWith(500)
+      expect(stubbedStatusSend).to.have.been.calledWith('Error: unable to retrieve requested villain. Please try your request again!')
     })
   })
 
